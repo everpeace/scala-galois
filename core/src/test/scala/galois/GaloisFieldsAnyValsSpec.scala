@@ -1,7 +1,8 @@
 package galois
 
 import org.specs2.mutable._
-import scala.galois._
+import galois._
+import galois.syntax.explicitly._
 
 class GaloisFieldsAnyValsSpec extends Specification {
 

@@ -7,11 +7,5 @@ import akka.dispatch.ExecutionContext
 
 package object shamir {
   // actor ? something
-  implicit val timeout = Timeout(5 seconds)
-
-  // for Future.sequence
-//  val pool = Executors.newCachedThreadPool()
-//  implicit val ec = ExecutionContext.fromExecutorService(pool)
-//
-//  def shutdownEc = ec.shutdown()
+  implicit val timeout = Timeout(500 seconds)
 }

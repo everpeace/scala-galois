@@ -2,37 +2,17 @@ package secret_share.shamir
 
 import akka.actor.{Props, ActorSystem}
 import akka.pattern.ask
-import galois._
 import akka.dispatch.Await
-import akka.util.duration._
 import org.specs2.mutable._
-import org.scalacheck.Properties
-import org.scalacheck.Prop.forAll
 import org.specs2.ScalaCheck
+import akka.util.duration._
 
-class ByteStreamShamirSecretShareSchemeSpec extends Specification with org.specs2.time.NoTimeConversions with ScalaCheck{
-
-  "decrypt encrypted message with length 4k" should {
-    "be the same with plain text" in {
-        assert_encrypt_and_decrypt("This is a very secret theory")
-    }
-  }
-
-  "decrypt encrypted message with length 4k+1" should {
-    "be the same with plain text" in {
-      assert_encrypt_and_decrypt("This is a very secret theory.")
-    }
-  }
-
-  "decrypt encrypted message with length 4k+2" should {
-    "be the same with plain text" in {
-      assert_encrypt_and_decrypt("This is a very secret theory..")
-    }
-  }
-
-  "decrypt encrypted message with length 4k+3" should {
-    "be the same with plain text" in {
-      assert_encrypt_and_decrypt("This is a very secret theory...")
+class ByteStreamShamirSecretShareSchemeSpec extends Specification with org.specs2.time.NoTimeConversions with ScalaCheck {
+  for {j <- 0 to 7} {
+    "decrypt encrypted message with length 8*k+"+j should {
+      "be the same with plain text" in {
+        (10 to 15).map(k=>assert_encrypt_and_decrypt(genString(8 * k)+j))
+      }
     }
   }
 
@@ -53,31 +33,33 @@ class ByteStreamShamirSecretShareSchemeSpec extends Specification with org.specs
       assert_encrypt_and_decrypt(text)
     }
   }
-  def assert_encrypt_and_decrypt(text:String)={
-    val system = ActorSystem("SecretShareLibrary")
-    import scala.util.Random
-    val r = new Random
+
+  def assert_encrypt_and_decrypt(text: String) = {
     import secret_share.shamir._
+
+    val system = ActorSystem("SecretShareLibrary")
+    val actor = system.actorOf(Props(new ByteStreamShamirSecretShareScheme(5, 3)))
 
     val textBytes = text.getBytes("UTF-8")
 
-//    print("plain text: ")
-//    println(textBytes.mkString("::"))
-    val actor = system.actorOf(Props(new ByteStreamShamirSecretShareScheme(5,3)))
+    //    print("plain text: ")
+    //    println(textBytes.mkString("::"))
     val crypto = for {
-      Crypto(sec) <- actor ? Plain(Stream(textBytes:_*))
+      Crypto(sec) <- actor ? Plain(Stream(textBytes: _*))
     } yield sec
-//    println("encrypted: " + Await.result(crypto, 5 second))
+    //    println("encrypted: " + Await.result(crypto, 5 second))
 
     val decrypt = for {
       c <- crypto
       Plain(p) <- actor ? Crypto(c)
     } yield p
-    val decrypted_text = Await.result(decrypt, 100 second)
-//    println("decrypted: " + decrypted_text)
+    val decrypted_text = Await.result(decrypt, 5000 seconds)
+    //    println("decrypted: " + decrypted_text)
 
     system.shutdown()
 
-    decrypted_text must equalTo(Stream(text:_*))
+    decrypted_text must equalTo(Stream(text: _*))
   }
+
+  def genString(length: Int): String = scala.util.Random.alphanumeric.take(length).mkString
 }

@@ -19,7 +19,7 @@ object ScalagaloisBuild extends sbt.Build {
     project(id = "secret-share",
       base = file("secret-share"),
       settings = Seq(
-        libraryDependencies <++= scalaVersion(v => Seq("com.typesafe.akka" % "akka-actor" % "2.0.5")
+        libraryDependencies <++= scalaVersion(v => Seq("com.typesafe.akka" % "akka-actor" % "2.0.5" withSources())
           ++ Seq("org.scalacheck" %% "scalacheck" % "1.10.0" % "test") ++ Seq(
           Shared.specsDep(v): _*
         )))) dependsOn (core)

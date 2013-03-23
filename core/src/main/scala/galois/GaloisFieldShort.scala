@@ -7,8 +7,8 @@ case class GaloisFieldShort(override val primitive_polynomial: Short) extends Ga
   import GaloisFieldAnyVal.BIT
   def zero = 0.toShort
   def one = 1.toShort
-  def maxValInLong = Short.MaxValue.toLong
+  def maxValInBigInt = Short.MaxValue.toLong
   def xor = (a:Short,b:Short) => (a ^ b).toShort
-  def leftShift = (a:Short,i:Int) => (a << i).toShort
+  def leftShiftOneBit = (a:Short) => (a << 1).toShort
   def bit = (a:Short,i:Int) => a.toLong & BIT(i)
 }

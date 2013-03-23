@@ -1,22 +1,33 @@
+import galois.GaloisField16Bytes._
+import galois.GaloisField2Bytes._
+import galois.GaloisField4Bytes._
+import galois.GaloisField8Bytes._
 
 package object galois {
   // Default GF(2^m) and those irreducible polynomials over GF(2).
+
+  /* ｘ<sup>128</sup> + ｘ<sup>8</sup> + ｘ<sup>6</sup> + ｘ<sup>5</sup> + ｘ<sup>4</sup> + ｘ +1 */
+  val P128 = (1 << 8) | (1 << 6) | (1 << 5) | (1 << 4) | (1 << 1) | 1
+  val DEFAULT_GF_16BYTE = GaloisField16Bytes(byteArray2TupBytes(BigInt(P128).toByteArray))
+
   /* x<sup>64</sup> + x<sup>4</sup> + x<sup>3</sup> + x + 1 */
   val P64: Long = ((1 << 4) | (1 << 3) | (1 << 1) | (1)).toLong
   val DEFAULT_GF_LONG = GaloisFieldLong(P64)
+  val DEFAULT_GF_8BYTE  = GaloisField8Bytes(long2TupBytes(P64))
 
   /* x<sup>32</sup> + x<sup>22</sup> + ｘ<sup>2</sup> + ｘ + 1 */
   val P32: Int = ((1 << 22) | (1 << 2) | (1 << 1) | 1)
   val DEFAULT_GF_INT = GaloisFieldInt(P32)
+  val DEFAULT_GF_4BYTE  = GaloisField4Bytes(int2TupBytes(P32))
 
   /* ｘ<sup>16</sup> + ｘ<sup>12</sup> + ｘ<sup>3</sup> + ｘ + 1 */
   val P16: Short = ((1 << 12) | (1 << 3) | (1 << 1) | 1).toShort
   val DEFAULT_GF_SHORT = GaloisFieldShort(P16)
+  val DEFAULT_GF_2BYTE  = GaloisField2Bytes(short2TupBytes(P16))
 
   /* ｘ<sup>8</sup> + ｘ<sup>4</sup> + ｘ<sup>3</sup> + ｘ<sup>2</sup> + 1 */
   val P8: Byte = ((1 << 4) | (1 << 3) | (1 << 2) | 1).toByte
   val DEFAULT_GF_BYTE = GaloisFieldByte(P8)
-
 
   // unpimp
   implicit def unpimp[E,F[E]<:Field[E]](p:PimpedFieldSyntax[E,F]):E = p.e
@@ -73,4 +84,5 @@ package object galois {
     case true => One
     case false => Zero
   }
+
 }

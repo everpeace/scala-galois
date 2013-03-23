@@ -21,10 +21,10 @@ trait Field[E] {
 
   def mul(a: E, b: E): E
   def div(a: E, b: E): E = mul(a, m_inv(b))
-  def pow(a: E, p: Long): E = p match{
+  def pow(a: E, p: BigInt): E = p match{
     case _ if (p < 0) => pow(m_inv(a), -1*p)
-    case 0  => m_unit
-    case _ if ((p & 1L) == 0L) => pow(mul(a,a),p/2)
-    case _ if ((p & 1L) == 1L) => mul(a,pow(a,p-1))
+    case _ if (p == 0) => m_unit
+    case _ if ((p % 2) == 0) => pow(mul(a,a),p/2)
+    case _ if ((p % 2) == 1) => mul(a,pow(a,p-1))
   }
 }

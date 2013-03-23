@@ -7,8 +7,8 @@ case class GaloisFieldByte(override val primitive_polynomial: Byte) extends Galo
   import GaloisFieldAnyVal.BIT
   def zero = 0.toByte
   def one = 1.toByte
-  def maxValInLong = Byte.MaxValue.toLong
+  def maxValInBigInt = Byte.MaxValue.toLong
   def xor = (a:Byte, b:Byte) => (a ^ b).toByte
-  def leftShift = (a:Byte, i:Int) => (a << i).toByte
-  def bit = (a:Byte, i:Int) => (a.toLong & BIT(i)).toInt
+  def leftShiftOneBit = (a:Byte) => (a << 1).toByte
+  def bit = (a:Byte, i:Int) => a.toLong & BIT(i)
 }

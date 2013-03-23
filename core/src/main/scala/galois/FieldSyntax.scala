@@ -12,5 +12,5 @@ trait FieldSyntax[E] {
   def <*>(x:E):E
   def m_inv:E
   def </>(x:E):E
-  def <**>(i:Long):E
+  def <**>(i:BigInt):E
 }

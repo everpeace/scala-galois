@@ -40,7 +40,7 @@ class ShamirSecretShareScheme[E](override val n:Int, override val k:Int, val f:G
     val cryptosF = Future.sequence(encryptors.zip(one2n).map(t =>
                                     t._1 ? (t._2, Polynomial[E,GaloisField](poly,f))
                                   ))
-    val cryptos = Await.result(cryptosF, 10 seconds)
+    val cryptos = Await.result(cryptosF, 100 seconds)
 //    println("input: "+p +"  crypto: "+cryptos)
     ec.shutdown()
     cryptos.asInstanceOf[List[(E,E)]]

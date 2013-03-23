@@ -7,8 +7,8 @@ case class GaloisFieldLong(override val primitive_polynomial: Long) extends Galo
   import GaloisFieldAnyVal.BIT
   def zero = 0L
   def one = 1L
-  def maxValInLong = Long.MaxValue
+  def maxValInBigInt = Long.MaxValue
   def xor = (a:Long, b:Long)=> a^b
-  def leftShift = (a:Long, i:Int) => a << i
+  def leftShiftOneBit = (a:Long) => a << 1
   def bit = (a:Long, i:Int) => a & BIT(i)
 }

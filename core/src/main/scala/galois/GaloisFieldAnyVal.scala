@@ -8,19 +8,20 @@ abstract class GaloisFieldAnyVal[T](override val degree:Int, override val primit
   // operations which are specific to T.
   def zero: T
   def one: T
-  def maxValInLong: Long
+  def maxValInBigInt: BigInt
   def xor: (T, T) => T
-  def leftShift: (T, Int) => T
+  def leftShiftOneBit: T => T
   def bit: (T, Int) => Long
 
 
   def a_inv(e: T) = e
 
   // FIXME: this is too naive: e^(-1) = e^(2^m-2).
-  // Long can't represent 2^64-1 because it is signed, so we can compute inverse by 2*(2^63-1).
+  // let l be bit length of T, then T can't represent 2^l-1 because it is signed,
+  // so we can compute inverse by e^((2^l-1)*2).
   def m_inv(e: T) = {
       require(e != zero, "inverse of zero doesn't exist.")
-      pow(pow(e, maxValInLong), 2)
+      pow(pow(e, maxValInBigInt), 2)
   }
 
   // addition of GF(2^D) is XOR.
@@ -49,22 +50,22 @@ abstract class GaloisFieldAnyVal[T](override val degree:Int, override val primit
    */
   private[this] def mul_root(a: T): T =
     if ((bit(a,degree - 1)) != 0L) {
-      // aに63次の項があれば桁あふれするので x^64 = P を足す(xorする);
-      add(leftShift(a, 1), primitive_polynomial)
+      // aにD-1次の項があれば桁あふれするので x^D = P を足す(xorする);
+      add(leftShiftOneBit(a), primitive_polynomial)
     } else {
       // 基本的にa倍は左シフトするだけ
-      leftShift(a, 1)
+      leftShiftOneBit(a)
     }
 
   /**
    * @return a*x^i on GF(2^D) (x is primitive primitive_polynomial)
    */
-  private[this] def mul_rootpow(a: T, i: Long): T = i match {
+  private[this] def mul_rootpow(a: T, i: Int): T = i match {
     case x if x >= degree || x < 0 => throw new UnsupportedOperationException("i must be less than " + degree + "[" + i + "]");
     case 0L => a
     case _ => {
       var ret: T = a;
-      for (j <- 1L to i) {
+      for (j <- 1 to i) {
         ret = mul_root(ret);
       }
       ret;

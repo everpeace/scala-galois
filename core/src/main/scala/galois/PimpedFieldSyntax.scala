@@ -30,5 +30,5 @@ trait PimpedFieldSyntax[E, F[E] <: Field[E]] extends Pimped[E, F] with FieldSynt
     f.div(e, x.e) on f
   }
 
-  def <**>(i: Long) = f.pow(e, i) on f
+  def <**>(i: BigInt) = f.pow(e, i) on f
 }

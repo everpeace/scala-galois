@@ -1,4 +1,4 @@
-scala-galois
+scala-galois  [![Build Status](https://travis-ci.org/everpeace/scala-galois.svg?branch=master)](https://travis-ci.org/everpeace/scala-galois)
 ====
 Galois Field Arithmetic Library in Scala.
 

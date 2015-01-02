@@ -1,10 +1,10 @@
 package secret_share.shamir
 
+import scala.concurrent.duration._
+import scala.concurrent.Await
 import akka.actor.{Props, ActorSystem}
 import akka.pattern.ask
 import galois._
-import akka.dispatch.Await
-import akka.util.duration._
 import org.specs2.mutable._
 
 class ShamirSecretShareSpec extends Specification with org.specs2.time.NoTimeConversions{

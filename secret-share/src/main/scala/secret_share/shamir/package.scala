@@ -1,9 +1,7 @@
 package secret_share
 
 import akka.util.Timeout
-import akka.util.duration._
-import java.util.concurrent.Executors
-import akka.dispatch.ExecutionContext
+import scala.concurrent.duration._
 
 package object shamir {
   // actor ? something

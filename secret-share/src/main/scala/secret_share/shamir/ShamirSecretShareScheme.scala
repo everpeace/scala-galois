@@ -4,9 +4,9 @@ import secret_share.ThresholdSecretShareScheme
 import galois._
 import galois.syntax.implicitly._
 import akka.actor._
-import akka.util.duration._
+import scala.concurrent.duration._
+import scala.concurrent.{Future, ExecutionContext, Await}
 import akka.pattern.ask
-import akka.dispatch.{ExecutionContext, Await, Future}
 import java.util.concurrent.Executors
 
 class ShamirSecretShareScheme[E](override val n:Int, override val k:Int, val f:GaloisField[E], val gen_poly: E => Map[Int,E])
@@ -22,12 +22,12 @@ class ShamirSecretShareScheme[E](override val n:Int, override val k:Int, val f:G
   })
 
   val encryptors = (1 to n).toList.map(_ => context.actorOf(Props(new Actor{
-    protected def receive = {
+    def receive = {
       case (plain:E, poly: Polynomial[E,GaloisField]) => sender ! ((plain, poly.calc(plain)))
     }
   })))
 
-  protected def receive = {
+  def receive = {
     case Plain(v:E) => sender ! Crypto[E](encrypt(v))
     case Crypto(cryptos:List[(E,E)]) => sender ! Plain(decrypt(cryptos))
   }

@@ -1,13 +1,12 @@
 package secret_share.shamir
 
+import scala.concurrent.duration._
+import scala.concurrent.Await
 import akka.actor.{Props, ActorSystem}
 import akka.pattern.ask
-import akka.dispatch.Await
 import org.specs2.mutable._
-import org.specs2.ScalaCheck
-import akka.util.duration._
 
-class ByteStreamShamirSecretShareSchemeSpec extends Specification with org.specs2.time.NoTimeConversions with ScalaCheck {
+class ByteStreamShamirSecretShareSchemeSpec extends Specification with org.specs2.time.NoTimeConversions {
   for {j <- 0 to 15} {
     "decrypt encrypted message with length 16*k+"+j should {
       "be the same with plain text" in {

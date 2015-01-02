@@ -1,8 +1,8 @@
 package secret_share.shamir
 
-import akka.util.duration._
+import scala.concurrent.duration._
+import scala.concurrent.Await
 import akka.actor.{Props, Actor}
-import akka.dispatch.Await
 import akka.pattern.ask
 import galois._
 import galois.GaloisField16Bytes._

@@ -21,7 +21,7 @@ class ShamirSecretShareScheme[E](override val n:Int, override val k:Int, val f:G
 
   val encryptors = (1 to n).toList.map(_ => context.actorOf(Props(new Actor{
     def receive = {
-      case (plain:E, poly: Polynomial[E,GaloisField]) => sender ! ((plain, poly.calc(plain)))
+      case (plain:E, poly: Polynomial[E]) => sender ! ((plain, poly(plain)))
     }
   })))
 
@@ -36,7 +36,7 @@ class ShamirSecretShareScheme[E](override val n:Int, override val k:Int, val f:G
     implicit val ec = ExecutionContext.fromExecutorService(pool)
     val poly = gen_poly(p)
     val cryptosF = Future.sequence(encryptors.zip(one2n).map(t =>
-                                    t._1 ? (t._2, Polynomial[E,GaloisField](poly,f))
+                                    t._1 ? (t._2, Polynomial[E](poly))
                                   ))
     val cryptos = Await.result(cryptosF, 100 seconds)
 //    println("input: "+p +"  crypto: "+cryptos)

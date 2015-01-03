@@ -1,12 +1,12 @@
 package secret_share.shamir
 
 import akka.actor.Actor
-import galois.Field
+import galois.{Polynomial, Field}
 
-class Encryptor[E,F[E]<:Field[E]] extends Actor{
+class Encryptor[E:Field] extends Actor{
 
  def receive = {
-    case (plain:E, poly: Polynomial[E,F]) => sender ! ((plain, poly.calc(plain)))
+    case (plain:E, poly: Polynomial[E]) => sender ! ((plain, poly(plain)))
   }
 
 }

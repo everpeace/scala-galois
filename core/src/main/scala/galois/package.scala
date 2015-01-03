@@ -2,8 +2,9 @@ import galois.GaloisField16Bytes._
 import galois.GaloisField2Bytes._
 import galois.GaloisField4Bytes._
 import galois.GaloisField8Bytes._
+import galois.syntax.AllSyntaxes
 
-package object galois {
+package object galois extends AllSyntaxes{
   // Default GF(2^m) and those irreducible polynomials over GF(2).
   object defaults {
     object primitive_polynomials {
@@ -39,22 +40,8 @@ package object galois {
     val GF_16_BYTES = GaloisField16Bytes(byteArray2TupBytes(BigInt(P128).toByteArray))
   }
 
-  // unpimp
-  implicit def unpimp[E,F[E]<:Field[E]](p:PimpedFieldSyntax[E,F]):E = p.e
-  // repimp GF to F
-  implicit def repimpGF2F[E, F[E]<:GaloisField[E]](gfp:PimpedFieldSyntax[E,F]) = FieldPimped(gfp.e,gfp.f)
-  // repimp F to GF
-  implicit def repimpF2GF[E, F[E]<:GaloisField[E]](p:PimpedFieldSyntax[E,F]) = GaloisFieldPimped(p.e,p.f)
-
-  // useful accessor for pimped values
-  def a_inv[E,F[E]<:Field[E]](p:PimpedFieldSyntax[E,F]) = p.a_inv
-  def m_inv[E,F[E]<:Field[E]](p:PimpedFieldSyntax[E,F]) = p.m_inv
-  def polynomialString[E, F[E]<:GaloisField[E]](p:GaloisFieldPimped[E,F]) = p.polynomialString
-  def primitivePolynomialString[E](gf:GaloisField[E]) = gf.primitivePolynomialString
-  def primitivePolynomialString[E, F[E]<:GaloisField[E]](p: GaloisFieldPimped[E,F]) = p.f.primitivePolynomialString
-
   // GF2
-  object GF2 extends GaloisField[GF2Element]{
+  implicit object GF2 extends GaloisField[GF2Element]{
     override def degree = 1
     override def primitive_polynomial = One
     def zero = Zero

@@ -1,9 +1,8 @@
 package example
 
-object ImplicitSyntaxExample extends App{
-  // step 1. import galois and syntax choice.
+object SyntaxExample extends App{
+  // step 1. import galois._
   import galois._
-  import galois.syntax.implicitly._
 
   // step 2. set primitive polynomial and generator GaloisField{Long|Int|Short|Byte}
   //  sample primitive polynomial over GF(2)

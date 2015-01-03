@@ -2,7 +2,7 @@ package galois.syntax
 
 import galois.Field
 
-case class FieldOps[E:Field](e: E)(implicit f:Field[E]) extends Ops[E]{
+case class FieldOps[E](e: E)(implicit f:Field[E]) extends Ops[E]{
   def isOne = f.one == e
 
   def isZero = f.zero == e

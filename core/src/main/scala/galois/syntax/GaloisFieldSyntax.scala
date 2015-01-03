@@ -2,7 +2,7 @@ package galois.syntax
 
 import galois.GaloisField
 
-case class GaloisFieldOps[E:GaloisField](e:E)(implicit f:GaloisField[E]) extends Ops[E]{
+case class GaloisFieldOps[E](e:E)(implicit f:GaloisField[E]) extends Ops[E]{
   def polynomialString: String = f.polynomialString(e)
 }
 

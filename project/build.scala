@@ -1,7 +1,7 @@
 import sbt._
 import Keys._
 
-object ScalagaloisBuild extends Build {
+object ScalaGaloisBuild extends Build {
 
   lazy val root =
     project(id = "scala-galois",
@@ -58,6 +58,10 @@ object Shared {
     version := "0.1.0-SNAPSHOT",
     scalaVersion := "2.10.4",
     crossScalaVersions := Seq("2.10.4", "2.11.4"),
+    scalacOptions := Seq(
+      "-feature",
+      "-language:implicitConversions", "-language:higherKinds", "-language:existentials", "-language:postfixOps",
+      "-unchecked"),
     resolvers ++= Seq("Typesafe Releases" at "http://repo.typesafe.com/typesafe/releases",
                       "Scala-Tools Maven2 Snapshots Repository" at "http://scala-tools.org/repo-snapshots",
                       "Sonatype Snapshots" at "http://oss.sonatype.org/content/repositories/snapshots",

@@ -5,6 +5,7 @@ import scala.concurrent.Await
 import akka.actor.{Props, Actor}
 import akka.pattern.ask
 import galois._
+import galois.defaults._
 import galois.GaloisField16Bytes._
 import galois.GaloisField8Bytes._
 import galois.GaloisField4Bytes._
@@ -20,11 +21,11 @@ class ByteStreamShamirSecretShareScheme(override val n: Int, override val k: Int
   type Byte4  = (Byte,Byte,Byte,Byte)
   type Byte2  = (Byte,Byte)
 
-  val field16 = GaloisField16Bytes(byteArray2TupBytes(BigInt(P128).toByteArray))
-  val field8  = GaloisField8Bytes(long2TupBytes(P64))
-  val field4  = GaloisField4Bytes(int2TupBytes(P32))
-  val field2  = GaloisField2Bytes(short2TupBytes(P16))
-  val field1  = GaloisFieldByte(P8)
+  val field16 = GF_16_BYTES
+  val field8  = GF_8_BYTES
+  val field4  = GF_4_BYTES
+  val field2  = GF_2_BYTES
+  val field1  = GF_BYTE
 
   val gen_coef16 = () => {
     val rands = new Array[Byte](16)

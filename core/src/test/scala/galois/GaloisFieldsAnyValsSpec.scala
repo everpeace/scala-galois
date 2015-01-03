@@ -2,6 +2,7 @@ package galois
 
 import org.specs2.mutable._
 import galois._
+import galois.defaults._
 import galois.syntax.explicitly._
 
 class GaloisFieldsAnyValsSpec extends Specification {
@@ -18,10 +19,10 @@ class GaloisFieldsAnyValsSpec extends Specification {
   val R2_32 = 4194311
   val R2_64 = 27L
 
-  val GF2_8 = DEFAULT_GF_BYTE
-  val GF2_16 = DEFAULT_GF_SHORT
-  val GF2_32 = DEFAULT_GF_INT
-  val GF2_64 = DEFAULT_GF_LONG
+  val GF2_8 = GF_BYTE
+  val GF2_16 = GF_SHORT
+  val GF2_32 = GF_INT
+  val GF2_64 = GF_LONG
 
   "Each primitive polynomial strings" should {
     "be " + P2_1 + " (GF2)." in {

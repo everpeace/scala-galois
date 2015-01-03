@@ -5,6 +5,7 @@ import scala.concurrent.Await
 import akka.actor.{Props, ActorSystem}
 import akka.pattern.ask
 import galois._
+import galois.defaults._
 import org.specs2.mutable._
 
 class ShamirSecretShareSpec extends Specification with org.specs2.time.NoTimeConversions{
@@ -18,7 +19,7 @@ class ShamirSecretShareSpec extends Specification with org.specs2.time.NoTimeCon
 
       val text = 135
 //      println("plain text: "+ text)
-      val actor = system.actorOf(Props(new ShamirSecretShareScheme[Int](5, 3, DEFAULT_GF_INT,
+      val actor = system.actorOf(Props(new ShamirSecretShareScheme[Int](5, 3, GF_INT,
         (e: Int) => {
           val cs = ((0, e) :: (1 to 2).toList.map((_, r.nextInt))).toMap
 //          println("generated polynomial: " + cs)
